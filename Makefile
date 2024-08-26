@@ -16,7 +16,7 @@ bash_ver := $(subst .,,$(bash_version))
 
 bash := bash-$(bash_version)
 bash_archive := $(bash).tar.gz
-bash_patches := [01-15]
+bash_patches := [01-32]
 
 .PHONY: all
 all: ## output targets
