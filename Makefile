@@ -16,7 +16,7 @@ bash_ver := $(subst .,,$(bash_version))
 
 bash := bash-$(bash_version)
 bash_archive := $(bash).tar.gz
-bash_patches := [01-32]
+bash_patches := [001-032]
 
 .PHONY: all
 all: ## output targets
@@ -30,10 +30,10 @@ clean: ## remove files
 install: CFLAGS := -DSSH_SOURCE_BASHRC
 install: ## install Bash
 	curl -o '$(root)/usr/src/$(bash_archive)' -fsSL 'https://ftp.gnu.org/gnu/bash/$(bash_archive)'
-	curl -o '$(root)/usr/src/bash$(bash_ver)-0#1' -fsSL 'https://ftp.gnu.org/gnu/bash/bash-$(bash_version)-patches/bash$(bash_ver)-0$(bash_patches)'
+	curl -o '$(root)/usr/src/bash$(bash_ver)-#1' -fsSL 'https://ftp.gnu.org/gnu/bash/bash-$(bash_version)-patches/bash$(bash_ver)-$(bash_patches)'
 	tar fx '$(root)/usr/src/$(bash_archive)' -C '$(root)/usr/src'
-	mv '$(root)'/usr/src/bash$(bash_ver)-0?? '$(root)/usr/src/$(bash)'
-	cd '$(root)/usr/src/$(bash)' && find . -type f -name 'bash$(bash_ver)-0??' -print0 | sort -nz | xargs -0 -n 1 -I % patch -p 0 -i %
+	mv '$(root)'/usr/src/bash$(bash_ver)-??? '$(root)/usr/src/$(bash)'
+	cd '$(root)/usr/src/$(bash)' && find . -type f -name 'bash$(bash_ver)-???' -print0 | sort -nz | xargs -0 -n 1 -I % patch -p 0 -i %
 	cd '$(root)/usr/src/$(bash)' && CFLAGS='$(CFLAGS)' ./configure --prefix='$(prefix)'
 	cd '$(root)/usr/src/$(bash)' && CFLAGS='$(CFLAGS)' make -j$(nproc) install
 	chmod -x $(root)/usr/lib/bash/*
