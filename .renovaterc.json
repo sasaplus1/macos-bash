@@ -28,12 +28,17 @@
   "customDatasources": {
     "bash": {
       "defaultRegistryUrlTemplate": "https://ftp.gnu.org/gnu/bash/",
-      "format": "html"
+      "format": "html",
+      "transformTemplates": [
+        "{\"releases\": releases[$match(version, /^bash-[\\d.]+\\.tar\\.gz$/)].{\"version\": $replace(version, /^bash-([\\d.]+)\\.tar\\.gz$/, \"$1\")}}"
+      ]
     },
     "bash-patches": {
       "defaultRegistryUrlTemplate": "https://ftp.gnu.org/gnu/bash/bash-{{packageName}}-patches/",
       "format": "html",
-      "extractVersionTemplate": "^bash\\d+-0*(?<version>\\d+)$"
+      "transformTemplates": [
+        "{\"releases\": releases[$match(version, /^bash\\d+-\\d+$/)].{\"version\": $replace(version, /^bash\\d+-0*/, \"\")}}"
+      ]
     }
   }
 }
