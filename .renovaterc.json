@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>sasaplus1/renovate-config:main.json5",
+    "local>sasaplus1/renovate-config:automerge-all.json5",
+    ":assignee(sasaplus1)"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^Makefile$/"],
+      "matchStrings": ["bash_version\\s*:?=\\s*(?<currentValue>[\\d.]+)"],
+      "depNameTemplate": "bash",
+      "datasourceTemplate": "custom.bash",
+      "versioningTemplate": "loose",
+      "extractVersionTemplate": "^bash-(?<version>[\\d.]+)\\.tar\\.gz$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^Makefile$/"],
+      "matchStrings": [
+        "bash_version\\s*:?=\\s*(?<depName>[\\d.]+)[\\s\\S]*?bash_patches\\s*:?=\\s*\\[01-(?<currentValue>\\d+)\\]"
+      ],
+      "datasourceTemplate": "custom.bash-patches",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "customDatasources": {
+    "bash": {
+      "defaultRegistryUrlTemplate": "https://ftp.gnu.org/gnu/bash/",
+      "format": "html"
+    },
+    "bash-patches": {
+      "defaultRegistryUrlTemplate": "https://ftp.gnu.org/gnu/bash/bash-{{packageName}}-patches/",
+      "format": "html",
+      "extractVersionTemplate": "^bash\\d+-0*(?<version>\\d+)$"
+    }
+  }
+}
