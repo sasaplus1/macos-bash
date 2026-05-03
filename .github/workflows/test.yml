@@ -20,7 +20,7 @@ jobs:
       - run: ccache --show-config
       - id: ccache
         run: echo "cache_dir=$(ccache --show-config | grep cache_dir | awk '{ print $4 }')" | tee -a "$GITHUB_OUTPUT"
-      - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ steps.ccache.outputs.cache_dir }}
           # use ccache- key everytime :(
